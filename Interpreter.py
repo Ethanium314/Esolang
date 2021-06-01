@@ -25,8 +25,12 @@ def vectadd(v1, v2):
 	return v1
 
 pointers = []
-newpointer = Pointer(text, 200, 0, 0, 0, [1, 0])
-pointers.append(newpointer)
+here = 0
+vec = [0, 0]
+newpointer1 = Pointer(text, 200, 0, 0, 0, [1, 0])
+newpointer2 = Pointer(text, 200, 0, 0, 0, [0, 1])
+pointers.append(newpointer1)
+pointers.append(newpointer2)
 inputs = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
@@ -50,10 +54,11 @@ while (len(pointers) > 0):
 		elif (this == "("):
 			if(pointer.vector[0] < 0):
 				pointer.vector[0] = -pointer.vector[0]
+		elif (this == ")"):
+			if (pointer.vector[0] > 0):
+				pointer.vector[0] = -pointer.vector[0]
 		elif (this == "@"):
 			pointer.value = ord(input())
-		elif (this in inputs):
-			pointer.value = ord(this)
 		elif (this == ":"):
 			print(chr(pointer.value), end="")
 		elif (this == "$"):
@@ -63,16 +68,46 @@ while (len(pointers) > 0):
 		elif (this == "_"):
 			pointer.vector[1] = -pointer.vector[1]
 		elif (this == "?"):
-			if (pointer.value != 0):
-				vectadd(pointer.vector, [1, 0])
+			if (pointer.value == ord(pointer.grid[pointer.y][pointer.x + 1])):
+				#turn right
+				temp = pointer.vector[0]
+				pointer.vector[0] = pointer.vector[1]
+				pointer.vector[1] = temp
+				pointer.vector[1] = -pointer.vector[1]
+			else:
+				#turn left
+				temp = pointer.vector[0]
+				pointer.vector[0] = pointer.vector[1]
+				pointer.vector[1] = temp
+				pointer.vector[0] = -pointer.vector[0]
 		elif (this == "!"):
 			pointers.remove(pointer)
 		elif (this == "*"):
-			pointer.value = ord(pointer[pointer.y][pointer.x + 1])
+			pointer.value = int(pointer.grid[pointer.y][pointer.x + 1])
 			if (pointer.vector == [1, 0]):
-				x1 += 1
+				pointer.x += 1
+		elif (this == "\""):
+			pointer.value = ord(pointer.grid[pointer.y][pointer.x + 1])
+			if (pointer.vector == [1, 0]):
+				pointer.x += 1
+		elif (this == "#"):
+			if (here):
+				vectadd(pointer.vector, vec)
+				pointers.remove(here)
+				here = 0
+				vec = [0, 0]
+			else:
+				here = pointer
+				vec = pointer.vector.copy()
+				print(vec)
+				pointer.vector = [0, 0]
 				
 		pointer.x += pointer.vector[0]
 		pointer.y += pointer.vector[1]
-		print(pointer.x)
+		#print(pointer.vector)
+		#print(pointer.x, pointer.y)
+		#print(vec)
+		#print(pointer.x, pointer.y)
+	#here = 0
+	print("\n")
 print("")
