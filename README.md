@@ -15,7 +15,7 @@ Commands:
 - "$": Output the value as an integer
 - "|": Vertical mirror; bounce left or right
 - "_": Horizontal mirror; bounce up or down
-- "?": If the pointer's value is equal to the character preceding this, turn the pointer 90 degrees right, otherwise turn the pointer 90 degrees left
+- "?": If the pointer's value is equal to the character to the right of this, turn the pointer 90 degrees right, otherwise turn the pointer 90 degrees left
 - "*": Take an integer to the left and set it as the pointers value
 - """: Take a character to the left and set its ascii value as the pointers value
 - "#": Take two vectors and add them, resulting in a single vector
